@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_24sp">24sp</dimen> // activity_add_item
+    <dimen name="text_size_18sp">18sp</dimen>
+    <dimen name="layout_marginTop16dp">16dp</dimen>
+    <dimen name="layout_marginStart_End32dp">32dp</dimen>
+    <dimen name="drawablePadding8dp">8dp</dimen>
+    <dimen name="layout_marginTop48dp">48dp</dimen>
+    <dimen name="layout_marginTop100dp">100dp</dimen>
+
+
+    <dimen name="paddingStart24dp">24dp</dimen> // item(layout)
+    <dimen name="paddingEnd24dp">24dp</dimen>
+    <dimen name="paddingTop28dp">28dp</dimen>
+    <dimen name="paddingBottom28dp">28dp</dimen>
+    <dimen name="textSize20sp">20sp</dimen>
+    <dimen name="layout_marginStart8dp">8dp</dimen>
+
+
+</resources>
