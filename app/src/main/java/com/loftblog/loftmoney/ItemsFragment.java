@@ -34,6 +34,7 @@ public class ItemsFragment extends Fragment {
         return fragment;
     }
 
+
     public static final int TYPE_UNNKNOWN = 0;
     public static final int TYPE_INCOMES = 1;
     public static final int TYPE_EXPENSES = 2;
