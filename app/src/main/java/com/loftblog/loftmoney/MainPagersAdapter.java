@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import static com.loftblog.loftmoney.ItemsFragment.TYPE_EXPENSES;
-import static com.loftblog.loftmoney.ItemsFragment.TYPE_INCOMES;
 
 public class MainPagersAdapter extends FragmentPagerAdapter {
 
@@ -30,9 +28,9 @@ public class MainPagersAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case PAGE_INCOMES:
-                return ItemsFragment.newInstance(TYPE_INCOMES);
+                return ItemsFragment.newInstance(Item.TYPE_INCOME);
             case PAGE_EXPENSES:
-                return ItemsFragment.newInstance(TYPE_EXPENSES);
+                return ItemsFragment.newInstance(Item.TYPE_EXPENSE);
             case PAGE_BALANCE:
                 BalanceFragment balanceFragment = new BalanceFragment();
                 return balanceFragment;

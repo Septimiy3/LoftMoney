@@ -1,12 +1,13 @@
 package com.loftblog.loftmoney;
 
 
+import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.widget.GridLayout.VERTICAL;
 
@@ -24,27 +28,29 @@ import static android.widget.GridLayout.VERTICAL;
  */
 public class ItemsFragment extends Fragment {
 
+    private static final String TAG = "ItemsFragmetn";
 
-    public static ItemsFragment newInstance(int type){
+
+    public static ItemsFragment newInstance(String type){
         ItemsFragment fragment = new ItemsFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_TYPE,type);
+        bundle.putString(KEY_TYPE,type);
         fragment.setArguments(bundle);
 
         return fragment;
     }
 
 
-    public static final int TYPE_UNNKNOWN = 0;
-    public static final int TYPE_INCOMES = 1;
-    public static final int TYPE_EXPENSES = 2;
-    public static final int TYPE_BALANCE = 3;
 
     public static final String KEY_TYPE = "type";
 
+    private String token = "$2y$10$MI9aJHOPZNR1WLHMPoRkx.6geJcwuzU/JxArRxeOoK9KXyPs3DzfG";
+
 
     private ItemsAdapter adapter;
-    private int type;
+    private String type;
+
+    private Api api;
 
     public ItemsFragment() {
         // Required empty public constructor
@@ -58,6 +64,11 @@ public class ItemsFragment extends Fragment {
         adapter = new ItemsAdapter(requireContext());
 
 
+        type = getArguments().getString(KEY_TYPE);
+
+        Application application = getActivity().getApplication();
+        App app = (App) application;
+        api = app.getApi();
 
     }
 
@@ -79,25 +90,98 @@ public class ItemsFragment extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(requireContext() ));
         recycler.addItemDecoration(driver);
 
-        adapter.setItems(createTempItems());
+        loadItems();
+    }
+    private void loadItems(){
+        Call call =  api.getItems(type,token);
 
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                List<Item> items =(List<Item>) response.body();
+                adapter.setItems(items);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e(TAG,"LoadItems: ",t);
+
+            }
+        });
     }
 
-    private List<Item> createTempItems(){
-        List<Item> items = new ArrayList<>();
-        items.add(new Item("Молоко","50p"));
-        items.add(new Item("Жираф","5000000p"));
-        items.add(new Item("Кукла","31"));
-        items.add(new Item("Вино","200"));
-        items.add(new Item("Сосиска","5p"));
-        items.add(new Item("Сосиска","5p"));
-        items.add(new Item("Йогурт","5p"));
-        items.add(new Item("Сосиска","5p"));
-        items.add(new Item("Сосиска","5p"));
-        items.add(new Item("Табак","5p"));
-        items.add(new Item("Сосиска","5p"));
+   /* private void loadItems(){
+        @SuppressLint("StaticFieldLeak")
+        AsyncTask<Void,Void,List<Item>> task = new AsyncTask<Void,Void,List<Item>>(){
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected List<Item> doInBackground(Void... voids) {
+                Call call =  api.getItems(type,token);
+
+                try {
+                    Response<List<Item>> response =  call.execute();
+                    List<Item> items = response.body();
+                    return items;
+                } catch (IOException e){
+                    Log.e(TAG,"LoadItems: ",e);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(List<Item> items) {
+                if(items != null){
+                    adapter.setItems(items);
+                }
+            }
+        };
+        task.execute();
+    }*/
 
 
-        return items;
-    }
+
+ /*   private class LoadItemsTask implements Runnable,Handler.Callback{
+        private Thread thread;
+        private Handler handler;
+
+        public LoadItemsTask() {
+            thread = new Thread(this);
+            handler = new Handler(this);
+        }
+
+        public void start(){
+            thread.start();
+        }
+
+        @Override
+        public void run() {
+            Call call =  api.getItems(type,token);
+
+            try {
+                Response<List<Item>> response =  call.execute();
+                List<Item> items = response.body();
+
+                Message message = handler.obtainMessage(111,items);
+                message.sendToTarget();
+            } catch (IOException e){
+                Log.e(TAG,"LoadItems: ",e);
+            }
+
+        }
+        @Override
+        public boolean handleMessage(Message msg){
+                if (msg.what ==111){
+
+                    List<Item> items = (List<Item>) msg.obj;
+                    adapter.setItems(items);
+                    return true;
+                }
+                return false;
+        }
+    }*/
 }
