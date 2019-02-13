@@ -6,28 +6,42 @@
     tools:context=".AddItemActivity"
     android:orientation="vertical">
     
-    <EditText
-        android:id="@+id/name"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/text_size_24sp"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_marginTop="@dimen/layout_marginTop100dp"
+        android:layout_marginStart="@dimen/layout_marginStart_End32dp"
+        android:layout_marginEnd="@dimen/layout_marginStart_End32dp"
         android:hint="@string/add_item_hint_name"
-        android:inputType="text"
-        android:layout_marginStart="@dimen/layout_marginStart_End32dp"
-        android:layout_marginEnd="@dimen/layout_marginStart_End32dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:id="@+id/price"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/text_size_24sp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_24sp"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_marginTop="@dimen/layout_marginTop16dp"
-        android:hint="@string/add_item_hint_price"
-        android:inputType="number"
         android:layout_marginStart="@dimen/layout_marginStart_End32dp"
         android:layout_marginEnd="@dimen/layout_marginStart_End32dp"
+        android:hint="@string/add_item_hint_price"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/price"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_24sp"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
     
     <Button
         android:id="@+id/add_button"

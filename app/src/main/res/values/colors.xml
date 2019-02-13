@@ -13,4 +13,8 @@
 
     <color name="perrywinkle">#b38baaef</color>
     <color name="white_two">#ffffff</color>
+
+    <color name="red_color">#FF0000</color>
+    <color name="yellow_color">#FFFF00</color>
+    <color name="purple_color">#FF00FF</color>
 </resources>

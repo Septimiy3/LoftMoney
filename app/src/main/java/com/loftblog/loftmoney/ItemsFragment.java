@@ -1,7 +1,9 @@
 package com.loftblog.loftmoney;
 
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,6 +30,8 @@ import static android.widget.GridLayout.VERTICAL;
  * A simple {@link Fragment} subclass.
  */
 public class ItemsFragment extends Fragment {
+
+    private static final int ADD_ITEM_REQUEST_CODE = 111;
 
     private static final String TAG = "ItemsFragmetn";
 
@@ -43,6 +48,9 @@ public class ItemsFragment extends Fragment {
 
 
     public static final String KEY_TYPE = "type";
+
+
+    private SwipeRefreshLayout refresh;
 
     private String token = "$2y$10$MI9aJHOPZNR1WLHMPoRkx.6geJcwuzU/JxArRxeOoK9KXyPs3DzfG";
 
@@ -66,6 +74,8 @@ public class ItemsFragment extends Fragment {
 
         type = getArguments().getString(KEY_TYPE);
 
+
+
         Application application = getActivity().getApplication();
         App app = (App) application;
         api = app.getApi();
@@ -80,6 +90,19 @@ public class ItemsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        int color1 = requireContext().getResources().getColor(R.color.purple_color);
+        int color2 = requireContext().getResources().getColor(R.color.yellow_color);
+        int color3 = requireContext().getResources().getColor(R.color.red_color);
+
+        refresh = view.findViewById(R.id.refresh);
+        refresh.setColorSchemeColors(color1,color2,color3);
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadItems();
+            }
+        });
 
         RecyclerView recycler = view.findViewById(R.id.recycler);
 
@@ -98,90 +121,41 @@ public class ItemsFragment extends Fragment {
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
+                refresh.setRefreshing(false);
                 List<Item> items =(List<Item>) response.body();
                 adapter.setItems(items);
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
+                refresh.setRefreshing(false);
                 Log.e(TAG,"LoadItems: ",t);
 
             }
         });
     }
 
-   /* private void loadItems(){
-        @SuppressLint("StaticFieldLeak")
-        AsyncTask<Void,Void,List<Item>> task = new AsyncTask<Void,Void,List<Item>>(){
+    void onFabClick(){
+        Intent intent = new Intent(requireContext(), AddItemActivity.class);
+        startActivityForResult(intent, ADD_ITEM_REQUEST_CODE);
+    }
 
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == ADD_ITEM_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+
+            if(data != null){
+                String name = data.getStringExtra(AddItemActivity.KEY_NAME);
+                String price = data.getStringExtra(AddItemActivity.KEY_PRICE);
+
+                Log.d(TAG,"OnActivityResult: name = " + name );
+                Log.d(TAG,"OnActivityResult: price = " + price );
+
+                Item item = new Item(name ,Double.valueOf(price),type);
+                adapter.addItem(item);
             }
-
-            @Override
-            protected List<Item> doInBackground(Void... voids) {
-                Call call =  api.getItems(type,token);
-
-                try {
-                    Response<List<Item>> response =  call.execute();
-                    List<Item> items = response.body();
-                    return items;
-                } catch (IOException e){
-                    Log.e(TAG,"LoadItems: ",e);
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(List<Item> items) {
-                if(items != null){
-                    adapter.setItems(items);
-                }
-            }
-        };
-        task.execute();
-    }*/
-
-
-
- /*   private class LoadItemsTask implements Runnable,Handler.Callback{
-        private Thread thread;
-        private Handler handler;
-
-        public LoadItemsTask() {
-            thread = new Thread(this);
-            handler = new Handler(this);
+        }else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
-
-        public void start(){
-            thread.start();
-        }
-
-        @Override
-        public void run() {
-            Call call =  api.getItems(type,token);
-
-            try {
-                Response<List<Item>> response =  call.execute();
-                List<Item> items = response.body();
-
-                Message message = handler.obtainMessage(111,items);
-                message.sendToTarget();
-            } catch (IOException e){
-                Log.e(TAG,"LoadItems: ",e);
-            }
-
-        }
-        @Override
-        public boolean handleMessage(Message msg){
-                if (msg.what ==111){
-
-                    List<Item> items = (List<Item>) msg.obj;
-                    adapter.setItems(items);
-                    return true;
-                }
-                return false;
-        }
-    }*/
+    }
 }
