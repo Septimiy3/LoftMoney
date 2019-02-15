@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AddItemActivity"
     android:orientation="vertical">
     
@@ -43,7 +44,10 @@
 
 
     
-    <Button
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        app:icon="@drawable/ic_chek"
+        app:iconTint="@color/color_add_buttom"
         android:id="@+id/add_button"
         android:drawableStart="@drawable/ic_chek"
         android:enabled="false"
