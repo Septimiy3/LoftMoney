@@ -10,7 +10,8 @@
     <string name="main_tab_incomes">Доходы</string>
     <string name="main_tab_balance">Баланс</string>
 
-    
+    <string name="auth_text">Loft Money</string>
+    <string name="login">Войти</string>
 
 
 </resources>

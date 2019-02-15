@@ -11,7 +11,13 @@ public interface Api {
 
 
     @GET("items")
-//    @Headers("auth-token: $2y$10$MI9aJHOPZNR1WLHMPoRkx.6geJcwuzU/JxArRxeOoK9KXyPs3DzfG")
     Call<List<Item>> getItems(@Query("type") String type,@Query("auth-token") String token);
+
+    @GET("auth")
+
+
+    // auth?social_user_id=<user_id>
+    //{"status":"success","id": id_юзера, “auth-token”: auth-token}
+    //в случае ошибки {"status":"Текст_ошибки"}
 
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.loftblog.loftmoney">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
@@ -14,15 +14,20 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity" android:label="@string/main_screen_title">
+        <activity android:name=".AuthActivity" android:theme="@style/AuthTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddItemActivity" android:theme="@style/AddItemTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/main_screen_title"/>
 
-        </activity>
-</application>
-    </manifest>
+        <activity
+            android:name=".AddItemActivity"
+            android:theme="@style/AddItemTheme"/>
+    </application>
+
+</manifest>

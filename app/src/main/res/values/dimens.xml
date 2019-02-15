@@ -16,5 +16,12 @@
     <dimen name="textSize20sp">20sp</dimen>
     <dimen name="layout_marginStart8dp">8dp</dimen>
 
+    <dimen name="size_logo_ic_93dp">93dp</dimen> //ic_logo(drawable)
+    
+    <dimen name="size_text_auth36sp">36sp</dimen> //activity_auth(layout)
+    <dimen name="padding_top18dp">18dp</dimen>
+    <dimen name="padding_top32dp">32dp</dimen>
+    <dimen name="textSize14sp">14sp</dimen>
+
 
 </resources>
