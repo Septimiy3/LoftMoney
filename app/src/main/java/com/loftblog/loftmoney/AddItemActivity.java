@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,9 +18,7 @@ import retrofit2.Response;
 public class AddItemActivity extends AppCompatActivity {
 
 
-
     public static final String KEY_TYPE = "type";
-
 
 
     private Api api;
@@ -35,27 +32,22 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
-        api = ((App)getApplication()).getApi();
-
-
+        api = ((App) getApplication()).getApi();
 
 
         name = findViewById(R.id.name);
         price = findViewById(R.id.price);
         addButtom = findViewById(R.id.add_button);
 
-        addButtom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        addButtom.setOnClickListener(v -> {
 
-                String nameText = name.getText().toString();
-                String priceText = price.getText().toString();
-                String type = getIntent().getStringExtra(KEY_TYPE);
+            String nameText = name.getText().toString();
+            String priceText = price.getText().toString();
+            String type = getIntent().getStringExtra(KEY_TYPE);
 
 
-                addItem(nameText,priceText,type);
+            addItem(nameText, priceText, type);
 
-            }
         });
 
         TextWatcher watcher = new TextWatcher() {
@@ -71,9 +63,9 @@ public class AddItemActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (name.length() != 0 && price.length() !=0){
+                if (name.length() != 0 && price.length() != 0) {
                     addButtom.setEnabled(!TextUtils.isEmpty(s));
-                }else
+                } else
                     addButtom.setEnabled(false);
             }
         };
@@ -81,14 +73,14 @@ public class AddItemActivity extends AppCompatActivity {
         price.addTextChangedListener(watcher);
     }
 
-    private void addItem(String name, String price, String type){
+    private void addItem(String name, String price, String type) {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String token = preferences.getString("auth_token",null);
+        String token = preferences.getString("auth_token", null);
 
-        AddItemRequest request = new AddItemRequest(Double.valueOf(price),name,type);
+        AddItemRequest request = new AddItemRequest(Double.valueOf(price), name, type);
 
-        Call<Object> call = api.addItem(request,token);
+        Call<Object> call = api.addItem(request, token);
 
         call.enqueue(new Callback<Object>() {
             @Override

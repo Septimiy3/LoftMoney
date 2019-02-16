@@ -14,12 +14,9 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item"/>
+            tools:listitem="@layout/item" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-
 
 
 </FrameLayout>

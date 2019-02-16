@@ -17,7 +17,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private static final String TAG = "AuthActivity";
 
-    private MaterialButton enterBtn ;
+    private MaterialButton enterBtn;
     private Api api;
 
     @Override
@@ -25,7 +25,7 @@ public class AuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         String token = getToken();
-        if (token != null){
+        if (token != null) {
             MainActivity.start(this);
             finish();
         }
@@ -36,14 +36,14 @@ public class AuthActivity extends AppCompatActivity {
         enterBtn = findViewById(R.id.enter_btn);
 
 
-        api = ((App)getApplication()).getApi();
+        api = ((App) getApplication()).getApi();
 
         enterBtn.setOnClickListener(v -> {
             auth();
         });
     }
 
-    private void auth(){
+    private void auth() {
 
         String userId = UUID.randomUUID().toString();
 
@@ -68,17 +68,17 @@ public class AuthActivity extends AppCompatActivity {
         });
     }
 
-    private void saveToken(String token){
+    private void saveToken(String token) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         preferences.edit()
-                .putString("auth_token",token)
+                .putString("auth_token", token)
                 .apply();
     }
 
-    private String getToken(){
+    private String getToken() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        return preferences.getString("auth_token",null);
+        return preferences.getString("auth_token", null);
     }
 }
