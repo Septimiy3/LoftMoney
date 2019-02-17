@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
+    android:orientation="horizontal"
     android:paddingStart="@dimen/paddingStart24dp"
-    android:paddingEnd="@dimen/paddingEnd24dp"
     android:paddingTop="@dimen/paddingTop28dp"
-    android:paddingBottom="@dimen/paddingBottom28dp"
-    android:orientation="horizontal">
+    android:paddingEnd="@dimen/paddingEnd24dp"
+    android:paddingBottom="@dimen/paddingBottom28dp">
 
     <TextView
         android:id="@+id/name"
-        android:textStyle="bold"
-        android:textColor="@color/medium_grey"
-        android:textSize="@dimen/textSize20sp"
-        tools:text="Молоко"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textColor="@color/medium_grey"
+        android:textSize="@dimen/textSize20sp"
+        android:textStyle="bold"
+        tools:text="Молоко" />
 
     <TextView
         android:id="@+id/price"
-        android:layout_marginStart="@dimen/layout_marginStart8dp"
-        android:layout_gravity="center_vertical"
-        android:textStyle="bold"
-        android:textColor="@color/dark_sky_blue"
-        android:textSize="@dimen/textSize20sp"
-        tools:text="70р"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"/>
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/layout_marginStart8dp"
+        android:layout_weight="0"
+        android:textColor="@color/dark_sky_blue"
+        android:textSize="@dimen/textSize20sp"
+        android:textStyle="bold"
+        tools:text="70р" />
 
 </LinearLayout>
