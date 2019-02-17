@@ -17,15 +17,12 @@ import retrofit2.Response;
 
 public class AddItemActivity extends AppCompatActivity {
 
-
     public static final String KEY_TYPE = "type";
-
 
     private Api api;
     private EditText name;
     private EditText price;
     private Button addButtom;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +30,6 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
 
         api = ((App) getApplication()).getApi();
-
 
         name = findViewById(R.id.name);
         price = findViewById(R.id.price);
@@ -44,7 +40,6 @@ public class AddItemActivity extends AppCompatActivity {
             String nameText = name.getText().toString();
             String priceText = price.getText().toString();
             String type = getIntent().getStringExtra(KEY_TYPE);
-
 
             addItem(nameText, priceText, type);
 
@@ -94,8 +89,6 @@ public class AddItemActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_CANCELED);
                 finish();
             }
-
-
         });
     }
 }

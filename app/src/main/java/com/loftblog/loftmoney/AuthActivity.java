@@ -30,11 +30,9 @@ public class AuthActivity extends AppCompatActivity {
             finish();
         }
 
-
         setContentView(R.layout.activity_auth);
 
         enterBtn = findViewById(R.id.enter_btn);
-
 
         api = ((App) getApplication()).getApi();
 
@@ -63,7 +61,6 @@ public class AuthActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-
             }
         });
     }

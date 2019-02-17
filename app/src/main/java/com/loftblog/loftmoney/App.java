@@ -20,10 +20,8 @@ public class App extends Application {
         super.onCreate();
         HttpLoggingInterceptor.Level level = BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE;
 
-
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(level);
-
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
@@ -31,7 +29,6 @@ public class App extends Application {
 
         Gson gson = new GsonBuilder()
                 .create();
-
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://loftschool.com/android-api/basic/v1/")

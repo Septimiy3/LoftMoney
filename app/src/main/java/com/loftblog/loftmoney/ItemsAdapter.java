@@ -81,23 +81,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
             price.setText(String.valueOf(item.getPrice()));
         }
         void setListener(Item item,ItemsAdapterListener listener,int position){
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        listener.onItemClick(item,position);
-                    }
+            itemView.setOnClickListener(v -> {
+                if(listener != null){
+                    listener.onItemClick(item,position);
                 }
             });
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if(listener != null){
-                        listener.onItemLongClick(item,position);
-                    }
-                    return true;
+            itemView.setOnLongClickListener(v -> {
+                if(listener != null){
+                    listener.onItemLongClick(item,position);
                 }
+                return true;
             });
         }
     }
