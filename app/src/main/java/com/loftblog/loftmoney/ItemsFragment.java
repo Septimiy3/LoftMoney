@@ -69,7 +69,7 @@ public class ItemsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         adapter = new ItemsAdapter(requireContext());
-
+        adapter.setListener(new AdapterListener());
 
         type = getArguments().getString(KEY_TYPE);
 
@@ -114,21 +114,20 @@ public class ItemsFragment extends Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         String token = preferences.getString("auth_token", null);
 
-        Call call = api.getItems(type, token);
-
-        call.enqueue(new Callback() {
+        Call<List<Item>> call = api.getItems(type, token);
+        call.enqueue(new Callback<List<Item>>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+
                 refresh.setRefreshing(false);
-                List<Item> items = (List<Item>) response.body();
+                List<Item> items = response.body();
                 adapter.setItems(items);
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<List<Item>> call, Throwable t) {
                 refresh.setRefreshing(false);
                 Log.e(TAG, "LoadItems: ", t);
-
             }
         });
     }
@@ -146,6 +145,19 @@ public class ItemsFragment extends Fragment {
             loadItems();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private class AdapterListener implements ItemsAdapterListener {
+
+        @Override
+        public void onItemClick(Item item, int position) {
+
+        }
+
+        @Override
+        public void onItemLongClick(Item item, int position) {
+
         }
     }
 }

@@ -21,6 +21,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     }
 
     private List<Item> items = Collections.emptyList();
+    private ItemsAdapterListener listener = null;
+
 
     public void setItems(List<Item> items) {
         this.items = items;
@@ -30,6 +32,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     public void addItem(Item item) {
         this.items.add(item);
         notifyItemInserted(items.size());
+    }
+
+    void setListener(ItemsAdapterListener listener){
+        this.listener = listener;
     }
 
 
@@ -52,6 +58,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = items.get(position);
         holder.bindItem(item);
+        holder.setListener(item, listener , position);
 
     }
 
@@ -72,6 +79,26 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         public void bindItem(Item item) {
             name.setText(item.getName());
             price.setText(String.valueOf(item.getPrice()));
+        }
+        void setListener(Item item,ItemsAdapterListener listener,int position){
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        listener.onItemClick(item,position);
+                    }
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if(listener != null){
+                        listener.onItemLongClick(item,position);
+                    }
+                    return true;
+                }
+            });
         }
     }
 
