@@ -4,9 +4,7 @@ package com.loftblog.loftmoney;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,20 +36,23 @@ public class ItemsFragment extends Fragment {
     private static final String TAG = "ItemsFragmetn";
 
 
-    public static ItemsFragment newInstance(String type) {
+    public static ItemsFragment newInstance(String type){
         ItemsFragment fragment = new ItemsFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(KEY_TYPE, type);
+        bundle.putString(KEY_TYPE,type);
         fragment.setArguments(bundle);
 
         return fragment;
     }
 
 
+
     public static final String KEY_TYPE = "type";
 
 
     private SwipeRefreshLayout refresh;
+
+    private String token = "$2y$10$MI9aJHOPZNR1WLHMPoRkx.6geJcwuzU/JxArRxeOoK9KXyPs3DzfG";
 
 
     private ItemsAdapter adapter;
@@ -74,6 +75,7 @@ public class ItemsFragment extends Fragment {
         type = getArguments().getString(KEY_TYPE);
 
 
+
         Application application = getActivity().getApplication();
         App app = (App) application;
         api = app.getApi();
@@ -94,8 +96,13 @@ public class ItemsFragment extends Fragment {
         int color3 = requireContext().getResources().getColor(R.color.red_color);
 
         refresh = view.findViewById(R.id.refresh);
-        refresh.setColorSchemeColors(color1, color2, color3);
-        refresh.setOnRefreshListener(() -> loadItems());
+        refresh.setColorSchemeColors(color1,color2,color3);
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadItems();
+            }
+        });
 
         RecyclerView recycler = view.findViewById(R.id.recycler);
 
@@ -103,48 +110,51 @@ public class ItemsFragment extends Fragment {
         DividerItemDecoration driver = new DividerItemDecoration(requireContext(), VERTICAL);
 
         recycler.setAdapter(adapter);
-        recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recycler.setLayoutManager(new LinearLayoutManager(requireContext() ));
         recycler.addItemDecoration(driver);
 
         loadItems();
     }
-
-    private void loadItems() {
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        String token = preferences.getString("auth_token", null);
-
-        Call call = api.getItems(type, token);
+    private void loadItems(){
+        Call call =  api.getItems(type,token);
 
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 refresh.setRefreshing(false);
-                List<Item> items = (List<Item>) response.body();
+                List<Item> items =(List<Item>) response.body();
                 adapter.setItems(items);
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
                 refresh.setRefreshing(false);
-                Log.e(TAG, "LoadItems: ", t);
+                Log.e(TAG,"LoadItems: ",t);
 
             }
         });
     }
 
-    void onFabClick() {
+    void onFabClick(){
         Intent intent = new Intent(requireContext(), AddItemActivity.class);
-        intent.putExtra(AddItemActivity.KEY_TYPE, type);
         startActivityForResult(intent, ADD_ITEM_REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ADD_ITEM_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if(requestCode == ADD_ITEM_REQUEST_CODE && resultCode == Activity.RESULT_OK){
 
-            loadItems();
-        } else {
+            if(data != null){
+                String name = data.getStringExtra(AddItemActivity.KEY_NAME);
+                String price = data.getStringExtra(AddItemActivity.KEY_PRICE);
+
+                Log.d(TAG,"OnActivityResult: name = " + name );
+                Log.d(TAG,"OnActivityResult: price = " + price );
+
+                Item item = new Item(name ,Double.valueOf(price),type);
+                adapter.addItem(item);
+            }
+        }else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }

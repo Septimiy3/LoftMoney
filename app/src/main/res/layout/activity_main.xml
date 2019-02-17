@@ -4,48 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     android:orientation="vertical"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
-
+    
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|snap"
             android:background="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|snap" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             app:tabBackground="@color/colorPrimary"
-            app:tabSelectedTextColor="@color/color_tab_text">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
 
+
+
     <androidx.viewpager.widget.ViewPager
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="match_parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_add"
         android:layout_marginEnd="@dimen/layout_marginTop16dp"
         android:layout_marginBottom="@dimen/paddingTop28dp"
-        android:src="@drawable/ic_add" />
+        android:layout_gravity="end|bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

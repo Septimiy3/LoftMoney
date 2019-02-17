@@ -21,7 +21,7 @@ public class MainPagersAdapter extends FragmentPagerAdapter {
 
     public MainPagersAdapter(FragmentManager fm, Context context) {
         super(fm);
-        this.context = context;
+        this.context=context;
     }
 
     @Override
@@ -50,9 +50,9 @@ public class MainPagersAdapter extends FragmentPagerAdapter {
             case PAGE_EXPENSES:
                 return context.getString(R.string.main_tab_expenses);
             case PAGE_INCOMES:
-                return context.getString(R.string.main_tab_incomes);
+                return  context.getString(R.string.main_tab_incomes);
             case PAGE_BALANCE:
-                return context.getString(R.string.main_tab_balance);
+                return  context.getString(R.string.main_tab_balance);
             default:
                 return "";
 

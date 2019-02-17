@@ -1,9 +1,8 @@
 package com.loftblog.loftmoney;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -17,12 +16,8 @@ import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static void start(Context context) {
-        Intent starter = new Intent(context, MainActivity.class);
-        context.startActivity(starter);
-    }
-
     private static final String TAG = "MainActivity";
+
 
 
     private ViewPager pager;
@@ -35,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("MainActivity", "onCreate");
+        Log.d("MainActivity","onCreate");
 
-        MainPagersAdapter adapter = new MainPagersAdapter(getSupportFragmentManager(), this);
+        MainPagersAdapter adapter= new MainPagersAdapter(getSupportFragmentManager(),this);
 
         pager = findViewById(R.id.pager);
         tabs = findViewById(R.id.tabs);
@@ -53,14 +48,17 @@ public class MainActivity extends AppCompatActivity {
         pager.addOnPageChangeListener(new PageChangeListener());
 
 
-        fab.setOnClickListener(v -> {
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
 
-            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+                List<Fragment> fragments = getSupportFragmentManager().getFragments();
 
-            for (Fragment fragment : fragments) {
-                if (fragment instanceof ItemsFragment && fragment.getUserVisibleHint()) {
-                    ((ItemsFragment) fragment).onFabClick();
+                for (Fragment fragment : fragments) {
+                    if(fragment instanceof  ItemsFragment && fragment.getUserVisibleHint()){
+                        ((ItemsFragment) fragment).onFabClick();
+                    }
                 }
             }
         });
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("MainActivity", "onCreate");
+        Log.d("MainActivity","onCreate");
     }
 
 
@@ -77,15 +75,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
-            switch (position) {
+            switch (position){
                 case MainPagersAdapter.PAGE_INCOMES:
                 case MainPagersAdapter.PAGE_EXPENSES:
-                    fab.show();
+                        fab.show();
                     break;
                 case MainPagersAdapter.PAGE_BALANCE:
-                    fab.hide();
+                        fab.hide();
                     break;
             }
         }
     }
+
 }

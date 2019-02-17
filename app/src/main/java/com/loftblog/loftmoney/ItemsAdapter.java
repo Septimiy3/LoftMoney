@@ -24,10 +24,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
     public void setItems(List<Item> items) {
         this.items = items;
-        notifyDataSetChanged();
+         notifyDataSetChanged();
     }
 
-    public void addItem(Item item) {
+    public void addItem(Item item){
         this.items.add(item);
         notifyItemInserted(items.size());
     }
@@ -41,8 +41,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.item, parent, false);
+        LayoutInflater inflater =(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.item, parent,false);
 
 
         return new ItemViewHolder(view);
@@ -54,6 +54,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         holder.bindItem(item);
 
     }
+
 
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +70,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         }
 
 
-        public void bindItem(Item item) {
+        public void bindItem(Item item){
             name.setText(item.getName());
             price.setText(String.valueOf(item.getPrice()));
         }

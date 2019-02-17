@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
-    android:orientation="horizontal"
     android:paddingStart="@dimen/paddingStart24dp"
-    android:paddingTop="@dimen/paddingTop28dp"
     android:paddingEnd="@dimen/paddingEnd24dp"
-    android:paddingBottom="@dimen/paddingBottom28dp">
+    android:paddingTop="@dimen/paddingTop28dp"
+    android:paddingBottom="@dimen/paddingBottom28dp"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:textStyle="bold"
         android:textColor="@color/medium_grey"
         android:textSize="@dimen/textSize20sp"
-        android:textStyle="bold"
-        tools:text="Молоко" />
+        tools:text="Молоко"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 
     <TextView
         android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:layout_marginStart="@dimen/layout_marginStart8dp"
-        android:layout_weight="0"
+        android:layout_gravity="center_vertical"
+        android:textStyle="bold"
         android:textColor="@color/dark_sky_blue"
         android:textSize="@dimen/textSize20sp"
-        android:textStyle="bold"
-        tools:text="70р" />
+        tools:text="70р"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"/>
 
 </LinearLayout>
