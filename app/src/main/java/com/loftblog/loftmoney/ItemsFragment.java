@@ -7,8 +7,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,6 +21,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -58,6 +64,8 @@ public class ItemsFragment extends Fragment {
     private String type;
 
     private Api api;
+    private ActionMode actionMode;
+
 
     public ItemsFragment() {
         // Required empty public constructor
@@ -132,6 +140,25 @@ public class ItemsFragment extends Fragment {
         });
     }
 
+    private void removeItem(long id) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        String token = preferences.getString("auth_token", null);
+
+        Call call = api.removeItem(id, token);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
+    }
+
     void onFabClick() {
         Intent intent = new Intent(requireContext(), AddItemActivity.class);
         intent.putExtra(AddItemActivity.KEY_TYPE, type);
@@ -152,12 +179,108 @@ public class ItemsFragment extends Fragment {
 
         @Override
         public void onItemClick(Item item, int position) {
+            Log.i(TAG, "onItemClick: " + item.getName());
 
+            if (actionMode == null) {
+                return;
+            }
+            toggleItem(position);
+            actionModeItemSelect();
         }
 
         @Override
         public void onItemLongClick(Item item, int position) {
+            Log.i(TAG, "onItemLongClick: " + item.getName());
+
+            if (actionMode != null) {
+                return;
+            }
+            getActivity().startActionMode(new ActionModeCallback());
+            toggleItem(position);
+            actionModeItemSelect();
 
         }
+
+
+        private void toggleItem(int position) {
+            adapter.toggleItem(position);
+        }
     }
+
+    private class ActionModeCallback implements ActionMode.Callback {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            actionMode = mode;
+
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = new MenuInflater(requireContext());
+            inflater.inflate(R.menu.menu_action_mode, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            if (item.getItemId() == R.id.delete_item) {
+                showDialog();
+
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            actionMode = null;
+            adapter.clearSelections();
+        }
+
+        void removeSelectedItems() {
+            List<Integer> selectedPositions = adapter.getSelectedPositions();
+
+            for (int i = selectedPositions.size() - 1; i >= 0; i--) {
+                Item item = adapter.removeItem(selectedPositions.get(i));
+                removeItem(item.getId());
+            }
+            actionMode.finish();
+        }
+
+        void showDialog() {
+            AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                    .setTitle(Html.fromHtml("<font color='#000000'>Вы действительно хотите удалить выбранный элемент?"))
+                    .setPositiveButton("Да", (dialog1, which) -> removeSelectedItems())
+                    .setNegativeButton("нет", (dialog12, which) -> {
+
+                    })
+                    .create();
+            dialog.show();
+        }
+    }
+
+    void actionModeItemSelect() {
+        int number = 0;
+        List<Integer> selectedActionPositions = adapter.getSelectedPositions();
+        while (number<=selectedActionPositions.size()){
+            actionMode.setTitle("Выделено: " + number);
+            number++;
+        }
+    }
+
+
+
+
+/*        for (int i = 0; i < selectedItems.size(); i++) {
+            int key = selectedItems.keyAt(i);
+            if (selectedItems.get(key)) {
+                selectedPositions.add(key);
+
+               actionMode.setTitle("Выделено: " + number);
+            }*/
+
 }
+
+

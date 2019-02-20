@@ -13,5 +13,9 @@
     <string name="auth_text">Loft Money</string>
     <string name="login">Войти</string>
 
+    <string name="action_mode_item_delete">Удалить</string>
 
+    <string name="dialog_delete">Вы действительно хотите удалить выбранный элемент?</string>
+    
+    <string name="action_mode_title">Выделено: </string>
 </resources>
