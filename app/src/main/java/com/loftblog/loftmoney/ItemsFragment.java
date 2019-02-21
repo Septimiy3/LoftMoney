@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Html;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -58,6 +57,7 @@ public class ItemsFragment extends Fragment {
 
 
     private SwipeRefreshLayout refresh;
+
 
 
     private ItemsAdapter adapter;
@@ -251,7 +251,7 @@ public class ItemsFragment extends Fragment {
 
         void showDialog() {
             AlertDialog dialog = new AlertDialog.Builder(requireContext())
-                    .setTitle(Html.fromHtml("<font color='#000000'>Вы действительно хотите удалить выбранный элемент?"))
+                    .setTitle(getResources().getString(R.string.dialog_delete))
                     .setPositiveButton("Да", (dialog1, which) -> removeSelectedItems())
                     .setNegativeButton("нет", (dialog12, which) -> {
 
@@ -260,12 +260,13 @@ public class ItemsFragment extends Fragment {
             dialog.show();
         }
     }
+    /*Html.fromHtml("<font color='#000000'>Вы действительно хотите удалить выбранный элемент?")*/
 
     void actionModeItemSelect() {
         int number = 0;
         List<Integer> selectedActionPositions = adapter.getSelectedPositions();
         while (number<=selectedActionPositions.size()){
-            actionMode.setTitle("Выделено: " + number);
+            actionMode.setTitle(getResources().getString(R.string.action_mode_title) + number);
             number++;
         }
     }
