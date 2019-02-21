@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         fab.hide();
         tabs.setBackgroundColor(ContextCompat.getColor(this,R.color.dark_grey_blue));
+        tabs.getTabTextColors();
     }
 
     @Override

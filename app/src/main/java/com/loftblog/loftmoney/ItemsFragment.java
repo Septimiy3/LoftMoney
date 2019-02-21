@@ -144,9 +144,9 @@ public class ItemsFragment extends Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         String token = preferences.getString("auth_token", null);
 
-        Call call = api.removeItem(id, token);
+        Call<Object> call = api.removeItem(id, token);
 
-        call.enqueue(new Callback() {
+        call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call call, Response response) {
 
@@ -254,7 +254,6 @@ public class ItemsFragment extends Fragment {
                     .setTitle(getResources().getString(R.string.dialog_delete))
                     .setPositiveButton("Да", (dialog1, which) -> removeSelectedItems())
                     .setNegativeButton("нет", (dialog12, which) -> {
-
                     })
                     .create();
             dialog.show();

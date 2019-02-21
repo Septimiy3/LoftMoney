@@ -19,8 +19,10 @@
     <color name="red_color">#FF0000</color>
     <color name="yellow_color">#FFFF00</color>
     <color name="purple_color">#FF00FF</color>
+    <color name="black_color">#000000</color>
 
     <color name="dark_grey_blue">#333f59</color>
+
     
     <color name="item_background_color_selected">#f2f2f2</color>
     <color name="item_background_color_default">#ffffff</color>
