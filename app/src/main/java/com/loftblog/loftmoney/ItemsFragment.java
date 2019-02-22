@@ -241,7 +241,6 @@ public class ItemsFragment extends Fragment {
 
         void removeSelectedItems() {
             List<Integer> selectedPositions = adapter.getSelectedPositions();
-
             for (int i = selectedPositions.size() - 1; i >= 0; i--) {
                 Item item = adapter.removeItem(selectedPositions.get(i));
                 removeItem(item.getId());
