@@ -22,6 +22,9 @@
     <color name="black_color">#000000</color>
 
     <color name="dark_grey_blue">#333f59</color>
+    
+    <color name="expense_color">#4a90e2</color>
+    <color name="income_color">#7ed321</color>
 
     
     <color name="item_background_color_selected">#f2f2f2</color>

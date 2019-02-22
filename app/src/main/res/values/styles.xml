@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -10,13 +10,13 @@
         <item name="actionModeBackground">@color/dark_grey_blue</item>
     </style>
 
-
-    <style name="ActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:titleTextStyle">@style/ActionBar.Title</item>
-    </style>
-
-    <style name="ActionBar.Title">
-        <item name="android:textColor">@color/white</item>
+    <style name="ToolbarAppTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/dark_grey_blue</item>
     </style>
 
 
