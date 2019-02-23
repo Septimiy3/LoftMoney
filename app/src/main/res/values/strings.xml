@@ -16,7 +16,10 @@
     <string name="action_mode_item_delete">Удалить</string>
 
     <string name="dialog_delete">Вы действительно хотите удалить выбранный элемент?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
     
     <string name="action_mode_title">Выделено:  </string>
+
 
 </resources>

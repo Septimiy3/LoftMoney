@@ -148,12 +148,12 @@ public class ItemsFragment extends Fragment {
 
         call.enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<Object> call, Response<Object> response) {
 
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<Object> call, Throwable t) {
 
             }
         });
@@ -251,8 +251,8 @@ public class ItemsFragment extends Fragment {
         void showDialog() {
             AlertDialog dialog = new AlertDialog.Builder(requireContext())
                     .setTitle(getResources().getString(R.string.dialog_delete))
-                    .setPositiveButton("Да", (dialog1, which) -> removeSelectedItems())
-                    .setNegativeButton("нет", (dialog12, which) -> {
+                    .setPositiveButton(getResources().getString(R.string.yes), (dialog1, which) -> removeSelectedItems())
+                    .setNegativeButton(getResources().getString(R.string.no), (dialog12, which) -> {
                     })
                     .create();
             dialog.show();
