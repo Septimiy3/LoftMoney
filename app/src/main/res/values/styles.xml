@@ -6,11 +6,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/perrywinkle</item>
-
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/dark_grey_blue</item>
     </style>
+
+    <style name="ToolbarAppTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/dark_grey_blue</item>
+    </style>
+
 
     <style name="AddItemTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->

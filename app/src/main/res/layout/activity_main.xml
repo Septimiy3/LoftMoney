@@ -17,14 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|snap" />
+            app:layout_scrollFlags="scroll|snap"
+           android:theme="@style/ToolbarAppTheme" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            app:tabBackground="@color/colorPrimary"
             app:tabTextColor="@color/perrywinkle"
             app:tabSelectedTextColor="@color/white">
 
