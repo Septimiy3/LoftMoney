@@ -2,7 +2,7 @@ package com.loftblog.loftmoney;
 
 public class Item {
 
-    public static final String TYPE_INCOME = "income";
+    public static final String TYPE_INCOME = "income" ;
     public static final String TYPE_EXPENSE = "expense";
 
     private long id;
@@ -10,7 +10,7 @@ public class Item {
     private Double price;
     private String type;
 
-    public Item(String name, Double price, String type) {
+    public Item(String name, Double price , String type) {
         this.name = name;
         this.price = price;
         this.type = type;

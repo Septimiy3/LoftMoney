@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -65,6 +66,10 @@ public class ItemsFragment extends Fragment {
 
     private Api api;
     private ActionMode actionMode;
+
+    private TextView balanceView;
+    private TextView expenseView;
+    private TextView incomeView;
 
 
     public ItemsFragment() {
@@ -279,6 +284,14 @@ public class ItemsFragment extends Fragment {
 
                actionMode.setTitle("Выделено: " + number);
             }*/
+
+/*    void bindItem(Item item, boolean selected) {
+        name.setText(item.getName());
+        price.setText(context.getString(R.string.count, String.valueOf(item.getPrice())));
+
+
+        itemView.setSelected(selected);
+    }*/
 
 }
 

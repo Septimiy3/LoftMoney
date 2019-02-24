@@ -29,4 +29,8 @@
     
     <color name="item_background_color_selected">#f2f2f2</color>
     <color name="item_background_color_default">#ffffff</color>
+
+    <color name="pale_orange">#ff9e57</color>
+    <color name="white_six">#efefef</color>
+
 </resources>

@@ -38,6 +38,13 @@ public class DiagramView extends View {
         }
     }
 
+    public void update(int income,int expense){
+        this.income = income;
+        this.expense = expense;
+        invalidate();
+
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -75,6 +82,8 @@ public class DiagramView extends View {
         );
 
     }
+
+
 
     }
 

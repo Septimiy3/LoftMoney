@@ -95,6 +95,16 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         holder.bindItem(item, selectedItems.get(position));
         holder.setListener(item, listener, position);
 
+
+/*        void setFragmentColor (String type){
+            if(type.equals(Item.TYPE_INCOME)){
+                price.setTextColor(ContextCompat.getColor(context, R.color.income_color));
+            }
+            else if (type.equals(Item.TYPE_EXPENSE)){
+                price.setTextColor(ContextCompat.getColor(context,R.color.expense_color));
+            }
+        }*/
+
     }
 
 
@@ -117,8 +127,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
         public void bindItem(Item item, boolean selected) {
             name.setText(item.getName());
-            price.setText(String.valueOf(item.getPrice()));
-
+            price.setText(context.getString(R.string.count,String.valueOf(item.getPrice())));
+//            price.setTextColor(ContextCompat.getColor(context,R.color.colorPrimary));
+//            price.setTextColor(ContextCompat.getColor(getItemId(),R.color.colorPrimary));
             itemView.setSelected(selected);
         }
 
