@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHolder> {
@@ -94,17 +95,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         Item item = items.get(position);
         holder.bindItem(item, selectedItems.get(position));
         holder.setListener(item, listener, position);
-
-
-/*        void setFragmentColor (String type){
-            if(type.equals(Item.TYPE_INCOME)){
-                price.setTextColor(ContextCompat.getColor(context, R.color.income_color));
-            }
-            else if (type.equals(Item.TYPE_EXPENSE)){
-                price.setTextColor(ContextCompat.getColor(context,R.color.expense_color));
-            }
-        }*/
-
+        holder.setFragmentColor(item.getType());
     }
 
 
@@ -122,14 +113,21 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
             name = itemView.findViewById(R.id.name);
             price = itemView.findViewById(R.id.price);
+
+        }
+        void setFragmentColor (String type){
+            if(type.equals(Item.TYPE_INCOME)){
+                price.setTextColor(ContextCompat.getColor(context, R.color.income_color));
+            }
+            else if (type.equals(Item.TYPE_EXPENSE)){
+                price.setTextColor(ContextCompat.getColor(context,R.color.expense_color));
+            }
         }
 
 
         public void bindItem(Item item, boolean selected) {
             name.setText(item.getName());
             price.setText(context.getString(R.string.count,String.valueOf(item.getPrice())));
-//            price.setTextColor(ContextCompat.getColor(context,R.color.colorPrimary));
-//            price.setTextColor(ContextCompat.getColor(getItemId(),R.color.colorPrimary));
             itemView.setSelected(selected);
         }
 
