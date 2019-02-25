@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,13 +80,13 @@ public class AddItemActivity extends AppCompatActivity {
 
         call.enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                 setResult(Activity.RESULT_OK);
                 finish();
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(@NonNull Call<Object> call, Throwable t) {
                 setResult(Activity.RESULT_CANCELED);
                 finish();
             }

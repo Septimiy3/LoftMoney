@@ -106,7 +106,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
         private Context context;
 
-        public ItemViewHolder(@NonNull View itemView) {
+        ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             context = itemView.getContext();
@@ -125,7 +125,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         }
 
 
-        public void bindItem(Item item, boolean selected) {
+        void bindItem(Item item, boolean selected) {
             name.setText(item.getName());
             price.setText(context.getString(R.string.count,String.valueOf(item.getPrice())));
             itemView.setSelected(selected);

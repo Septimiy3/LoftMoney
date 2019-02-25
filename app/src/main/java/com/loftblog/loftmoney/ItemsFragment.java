@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,7 +45,7 @@ public class ItemsFragment extends Fragment {
     private static final String TAG = "ItemsFragmetn";
 
 
-    public static ItemsFragment newInstance(String type) {
+    static ItemsFragment newInstance(String type) {
         ItemsFragment fragment = new ItemsFragment();
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TYPE, type);
@@ -84,17 +85,19 @@ public class ItemsFragment extends Fragment {
         adapter = new ItemsAdapter(requireContext());
         adapter.setListener(new AdapterListener());
 
-        type = getArguments().getString(KEY_TYPE);
+        if (getArguments() != null) {
+            type = getArguments().getString(KEY_TYPE);
+        }
 
 
-        Application application = getActivity().getApplication();
+        Application application = Objects.requireNonNull(getActivity()).getApplication();
         App app = (App) application;
         api = app.getApi();
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_items, container, false);
     }
@@ -108,7 +111,7 @@ public class ItemsFragment extends Fragment {
 
         refresh = view.findViewById(R.id.refresh);
         refresh.setColorSchemeColors(color1, color2, color3);
-        refresh.setOnRefreshListener(() -> loadItems());
+        refresh.setOnRefreshListener(this::loadItems);
 
         RecyclerView recycler = view.findViewById(R.id.recycler);
 
@@ -130,7 +133,7 @@ public class ItemsFragment extends Fragment {
         Call<List<Item>> call = api.getItems(type, token);
         call.enqueue(new Callback<List<Item>>() {
             @Override
-            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+            public void onResponse(@NonNull Call<List<Item>> call, @NonNull Response<List<Item>> response) {
 
                 refresh.setRefreshing(false);
                 List<Item> items = response.body();
@@ -138,7 +141,7 @@ public class ItemsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Item>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Item>> call, Throwable t) {
                 refresh.setRefreshing(false);
                 Log.e(TAG, "LoadItems: ", t);
             }
@@ -153,12 +156,12 @@ public class ItemsFragment extends Fragment {
 
         call.enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
 
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(@NonNull Call<Object> call, Throwable t) {
 
             }
         });
@@ -200,7 +203,7 @@ public class ItemsFragment extends Fragment {
             if (actionMode != null) {
                 return;
             }
-            getActivity().startActionMode(new ActionModeCallback());
+            Objects.requireNonNull(getActivity()).startActionMode(new ActionModeCallback());
             toggleItem(position);
             actionModeItemSelect();
 
@@ -265,7 +268,7 @@ public class ItemsFragment extends Fragment {
     }
     /*Html.fromHtml("<font color='#000000'>Вы действительно хотите удалить выбранный элемент?")*/
 
-    void actionModeItemSelect() {
+    private void actionModeItemSelect() {
         int number = 0;
         List<Integer> selectedActionPositions = adapter.getSelectedPositions();
         while (number<=selectedActionPositions.size()){

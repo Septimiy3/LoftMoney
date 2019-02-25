@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -48,14 +50,14 @@ public class BalanceFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Application application = getActivity().getApplication();
+        Application application = Objects.requireNonNull(getActivity()).getApplication();
         App app = (App) application;
         api = app.getApi();
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_balance, container, false);
@@ -88,12 +90,16 @@ public class BalanceFragment extends Fragment {
         Call<BalanceResponse> call = api.balance(token);
         call.enqueue(new Callback<BalanceResponse>() {
             @Override
-            public void onResponse(Call<BalanceResponse> call, Response<BalanceResponse> response) {
+            public void onResponse(@NonNull Call<BalanceResponse> call, @NonNull Response<BalanceResponse> response) {
                 BalanceResponse balanceResponse = response.body();
 
-                int balance = balanceResponse.getTotalIncome() - balanceResponse.getTotalExpense();
+                int balance = 0;
+                if (balanceResponse != null) {
+                    balance = balanceResponse.getTotalIncome() - balanceResponse.getTotalExpense();
+                }
 
                 balanceView.setText(getString(R.string.balance_fragment_count, balance));
+                assert balanceResponse != null;
                 expenseView.setText(getString(R.string.balance_fragment_count, balanceResponse.getTotalExpense()));
                 incomeView.setText(getString(R.string.balance_fragment_count, balanceResponse.getTotalIncome()));
 
@@ -101,7 +107,7 @@ public class BalanceFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<BalanceResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<BalanceResponse> call, Throwable t) {
 
             }
         });
