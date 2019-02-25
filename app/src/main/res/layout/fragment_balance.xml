@@ -117,7 +117,7 @@
         android:background="@color/white_six" />
 
     <FrameLayout
-        android:padding="16dp"
+        android:padding="64dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
