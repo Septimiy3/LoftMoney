@@ -4,7 +4,6 @@ package com.loftblog.loftmoney;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,14 +44,18 @@ public class BalanceFragment extends Fragment {
     private TextView expenseView;
     private TextView incomeView;
     private DiagramView diagramView;
+    private SharedPreferences preferences;
+
+    private App app;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Application application = Objects.requireNonNull(getActivity()).getApplication();
-        App app = (App) application;
+        app = (App) application;
         api = app.getApi();
+        preferences = app.getPrefs();
 
     }
 
@@ -72,42 +75,36 @@ public class BalanceFragment extends Fragment {
         incomeView = view.findViewById(R.id.income_value);
         diagramView = view.findViewById(R.id.diagram_view);
 
+        loadBalance();
 
 
     }
 
-    private void loadBalance(){
+    private void loadBalance() {
 
-/*        balanceView.setText("64000");
-        expenseView.setText("5400");
-        incomeView.setText("74000");
 
-        diagramView.update(74000,5400);*/
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         String token = preferences.getString("auth_token", null);
-
         Call<BalanceResponse> call = api.balance(token);
         call.enqueue(new Callback<BalanceResponse>() {
             @Override
             public void onResponse(@NonNull Call<BalanceResponse> call, @NonNull Response<BalanceResponse> response) {
                 BalanceResponse balanceResponse = response.body();
 
-                int balance = 0;
+
                 if (balanceResponse != null) {
-                    balance = balanceResponse.getTotalIncome() - balanceResponse.getTotalExpense();
+                    int balance = balanceResponse.getTotalIncome() - balanceResponse.getTotalExpense();
+                    balanceView.setText(getString(R.string.balance_fragment_count, balance));
+                    expenseView.setText(getString(R.string.balance_fragment_count, balanceResponse.getTotalExpense()));
+                    incomeView.setText(getString(R.string.balance_fragment_count, balanceResponse.getTotalIncome()));
+
+                    diagramView.update(balanceResponse.getTotalIncome(), balanceResponse.getTotalExpense());
                 }
 
-                balanceView.setText(getString(R.string.balance_fragment_count, balance));
-                assert balanceResponse != null;
-                expenseView.setText(getString(R.string.balance_fragment_count, balanceResponse.getTotalExpense()));
-                incomeView.setText(getString(R.string.balance_fragment_count, balanceResponse.getTotalIncome()));
 
-                diagramView.update(balanceResponse.getTotalIncome(),balanceResponse.getTotalExpense());
             }
 
             @Override
-            public void onFailure(@NonNull Call<BalanceResponse> call, Throwable t) {
+            public void onFailure(Call<BalanceResponse> call, Throwable t) {
 
             }
         });
@@ -117,7 +114,7 @@ public class BalanceFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if(isVisibleToUser){
+        if (isVisibleToUser && preferences!=null) {
             loadBalance();
         }
     }

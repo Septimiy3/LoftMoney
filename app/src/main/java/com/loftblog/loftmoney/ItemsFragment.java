@@ -268,7 +268,7 @@ public class ItemsFragment extends Fragment {
     }
     /*Html.fromHtml("<font color='#000000'>Вы действительно хотите удалить выбранный элемент?")*/
 
-    private void actionModeItemSelect() {
+    void actionModeItemSelect() {
         int number = 0;
         List<Integer> selectedActionPositions = adapter.getSelectedPositions();
         while (number<=selectedActionPositions.size()){
