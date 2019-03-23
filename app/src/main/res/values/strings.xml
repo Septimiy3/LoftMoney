@@ -21,5 +21,12 @@
     
     <string name="action_mode_title">Выделено:  </string>
 
+    <string name="balance_balance_title">Доступные финансы </string>
+    <string name="balance_income_title">Доход</string>
+    <string name="balance_expense_title">Расход</string>
+
+    <string name="count">%1$s \u20bd</string>
+    <string name="balance_fragment_count">%1$d \u20bd</string>
+
 
 </resources>

@@ -1,6 +1,8 @@
 package com.loftblog.loftmoney;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,5 +43,9 @@ public class App extends Application {
 
     public Api getApi() {
         return api;
+    }
+
+    public SharedPreferences getPrefs() {
+        return PreferenceManager.getDefaultSharedPreferences(this);
     }
 }

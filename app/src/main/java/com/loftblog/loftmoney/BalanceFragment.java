@@ -1,12 +1,22 @@
 package com.loftblog.loftmoney;
 
 
+import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -28,12 +38,84 @@ public class BalanceFragment extends Fragment {
         return fragment;
     }
 
+    private Api api;
+
+    private TextView balanceView;
+    private TextView expenseView;
+    private TextView incomeView;
+    private DiagramView diagramView;
+    private SharedPreferences preferences;
+
+    private App app;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Application application = Objects.requireNonNull(getActivity()).getApplication();
+        app = (App) application;
+        api = app.getApi();
+        preferences = app.getPrefs();
+
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_balance, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        balanceView = view.findViewById(R.id.balance_value);
+        expenseView = view.findViewById(R.id.expense_value);
+        incomeView = view.findViewById(R.id.income_value);
+        diagramView = view.findViewById(R.id.diagram_view);
+
+        loadBalance();
+
+
+    }
+
+    private void loadBalance() {
+
+
+        String token = preferences.getString("auth_token", null);
+        Call<BalanceResponse> call = api.balance(token);
+        call.enqueue(new Callback<BalanceResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<BalanceResponse> call, @NonNull Response<BalanceResponse> response) {
+                BalanceResponse balanceResponse = response.body();
+
+
+                if (balanceResponse != null) {
+                    int balance = balanceResponse.getTotalIncome() - balanceResponse.getTotalExpense();
+                    balanceView.setText(getString(R.string.balance_fragment_count, balance));
+                    expenseView.setText(getString(R.string.balance_fragment_count, balanceResponse.getTotalExpense()));
+                    incomeView.setText(getString(R.string.balance_fragment_count, balanceResponse.getTotalIncome()));
+
+                    diagramView.update(balanceResponse.getTotalIncome(), balanceResponse.getTotalExpense());
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<BalanceResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser && preferences!=null) {
+            loadBalance();
+        }
+    }
 }
